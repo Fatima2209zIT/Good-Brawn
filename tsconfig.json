@@ -4,6 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "types": ["three", "@react-three/fiber"],
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,

@@ -1,101 +1,130 @@
+"use client";
+
+import Navbar from "../app/components/navbar";
 import Image from "next/image";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
+import AboutTheTeam from "./components/team";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const productImages = ["product1.jpg", "product2.jpg", "product3.jpg", "product4.jpg"];
+
+  
+  const [showProducts, setShowProducts] = useState(false);
+
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowProducts(true);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      transition={{ duration: 1 }} 
+      className="min-h-screen font-[Poppins] bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/bg.jpg')" }} 
+    >
+      <Navbar />
+      
+     
+      <motion.div 
+        style={{ y }} 
+        className="absolute inset-0 z-0"
+      >
+        <Image src="/bg.jpg" alt="Background" layout="fill" objectFit="cover" className="opacity-30" />
+      </motion.div>
+
+      <div className="relative z-10 max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-8 md:gap-12">
+        {/* Image Section with Floating Effect */}
+        <motion.div 
+          initial={{ x: -100, opacity: 0 }} 
+          animate={{ x: 0, opacity: 1 }} 
+          transition={{ duration: 1, type: "spring" }}
+          className="w-full md:w-1/2"
+        >
+          <motion.div 
+            animate={{ y: [0, -10, 0] }} 
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <div className="border-8 border-orange-400 rounded-lg p-4 sm:p-6 bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300">
+              <Image src="/lingerie.jpg" alt="Vintage Shop" width={500} height={500} className="rounded-lg w-full h-auto hover:scale-105 transition-transform duration-300" />
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Text Section */}
+        <motion.div 
+          initial={{ y: 50, opacity: 0 }} 
+          animate={{ y: 0, opacity: 1 }} 
+          transition={{ duration: 1, delay: 0.3, ease: "easeOut" }} 
+          className="w-full md:w-1/2 text-center md:text-left"
+        >
+          <motion.h2 
+            initial={{ scale: 0.9, opacity: 0 }} 
+            animate={{ scale: 1, opacity: 1 }} 
+            transition={{ duration: 1, delay: 0.5, type: "spring" }}
+            className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white text-shadow-lg  transition-colors duration-300"
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+            "Timeless elegance, delicate beauty embrace the charm of vintage lingerie."
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 1, delay: 0.7 }} 
+            className="text-lg sm:text-xl font-bold mt-4 text-gray-200 hover:text-white transition-colors duration-300"
+          >
+            Open Daily: 9 a.m to 8 p.m
+          </motion.p>
+
+          {/* Button with Hover Animation */}
+          <motion.button
+            whileHover={{ scale: 1.1, rotate: 2 }}
+            whileTap={{ scale: 0.9 }}
+            className="mt-6 bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-6 py-3 sm:px-8 sm:py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl hover:bg-gradient-to-r hover:from-yellow-500 hover:to-orange-500 transition-all duration-300"
+          >
+            50% OFF
+          </motion.button>
+        </motion.div>
+      </div>
+
+      {/* OUR LATEST PRODUCTS Heading */}
+      <motion.h2 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.5, type: "spring" }}
+        className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-white my-8 sm:my-12 transition-colors duration-300"
+      >
+        OUR LATEST PRODUCTS
+      </motion.h2>
+
+      {/* Products Section */}
+      <div className="m-[50px] relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {productImages.map((img, index) => (
+          <motion.div 
+            key={index}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={showProducts ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.8, delay: index * 0.2 }}
+            className="bg-white p-4 rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
+          >
+            <Image src={`/${img}`} alt={ `${index + 1}`} width={300} height={300} className="rounded-lg w-full h-auto" />
+            <p className="text-lg font-semibold text-center mt-2 hover:text-orange-500 transition-colors duration-300">Product {index + 1}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* About The Team Section */}
+      <AboutTheTeam />
+    </motion.div>
   );
 }
